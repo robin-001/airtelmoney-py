@@ -1,0 +1,2033 @@
+{
+  "info": {
+    "_postman_id": "213d4553-7207-473a-8d45-5945f3ae56eb",
+    "name": "AirtelMoney",
+    "description": "Airtel Africa provides a secure way to accept money from the customers.  \nCreate an account or login using your existing credentials. If you don't have an account then do signup.  \nGenerate your staging account credentials from the application settings. These are required to explore Airtel Africa's integration solutions.  \nWhen you are ready to go live, activate your account in the dashboard to get production account credentials.  \n  \n**Understanding account credentials**  \nAccount credentials are available in your dashboard for both staging and production environment.  \n**Remember**: Never share your application key or secret with other developers or anyone at Airtel Africa as this will compromise the security of your application.  \n\n**Documentation**  \nRead the instructions about how to effectively use and integrate with an API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1710318",
+    "_collection_link": "https://go.postman.co/collection/1710318-213d4553-7207-473a-8d45-5945f3ae56eb?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Collection APIs",
+      "item": [
+        {
+          "name": "Payments USSD Push",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Currency",
+                "value": "UGX",
+                "type": "text"
+              },
+              {
+                "key": "X-Country",
+                "value": "UG",
+                "type": "text"
+              },
+              {
+                "key": "x-signature",
+                "value": "xxxx",
+                "type": "text"
+              },
+              {
+                "key": "x-key",
+                "value": "xxxx",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n      \"reference\": \"Testing transaction\",\r\n      \"subscriber\": {\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"msisdn\": \"{{msisdn}}\"\r\n      },\r\n      \"transaction\": {\r\n        \"amount\": 1000,\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"id\": \"{{$randomUUID}}\"\r\n      }\r\n}\r\n    ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint.uat}} /merchant/v2/payments/",
+              "host": [
+                "{{endpoint.uat}} "
+              ],
+              "path": [
+                "merchant",
+                "v2",
+                "payments",
+                ""
+              ]
+            },
+            "description": "This API is used to request a payment from a consumer(Payer). The consumer(payer) will be asked to authorize the payment. After authorization, the transaction will be executed."
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n      \"reference\": \"Testing transaction\",\r\n      \"subscriber\": {\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"msisdn\": 9999999999\r\n      },\r\n      \"transaction\": {\r\n        \"amount\": 1000,\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"id\": \"random-unique-id\"\r\n      }\r\n}\r\n    ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/merchant/v1/payments/",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "merchant",
+                    "v1",
+                    "payments",
+                    ""
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Tue, 14 Dec 2021 18:22:39 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "www-authenticate",
+                  "value": "Bearer realm=\"service\" error=\"invalid_token\" error_description=\"The access token is invalid or has expired\""
+                },
+                {
+                  "key": "content-length",
+                  "value": "90"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error_description\": \"The access token is invalid or has expired\",\n    \"error\": \"invalid_token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n      \"reference\": \"Testing transaction\",\r\n      \"subscriber\": {\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"msisdn\": 9999999999\r\n      },\r\n      \"transaction\": {\r\n        \"amount\": 1000,\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"id\": \"random-unique-id\"\r\n      }\r\n}\r\n    ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/merchant/v1/payments/",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "merchant",
+                    "v1",
+                    "payments",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"transaction\": {\n            \"id\": \"ASDJBEJB4KRN5\",\n            \"status\": \"SUCCESS\"\n        }\n    },\n    \"status\": {\n        \"code\": \"200\",\n        \"message\": \"SUCCESS\",\n        \"result_code\": \"ESB000010\",\n        \"response_code\": \"DP00800001006\",\n        \"success\": true\n    }\n}"
+            },
+            {
+              "name": "Payments USSD - trxid exists",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n      \"reference\": \"Testing transaction\",\r\n      \"subscriber\": {\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"msisdn\": 999999999\r\n      },\r\n      \"transaction\": {\r\n        \"amount\": 1000,\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"id\": \"random-unique-id\"\r\n      }\r\n}\r\n    ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/merchant/v1/payments/",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "merchant",
+                    "v1",
+                    "payments",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "transfer-encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 01 Mar 2022 11:30:56 GMT"
+                },
+                {
+                  "key": "vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "x-response-trace-id",
+                  "value": "5dfaea1e1be94722bbe72379e7ed808d"
+                },
+                {
+                  "key": "x-response-trace-id",
+                  "value": "6c7c6b258f3a46c2a70404f9441d6833"
+                },
+                {
+                  "key": "x-client-id",
+                  "value": "mfs-router"
+                },
+                {
+                  "key": "x-client-id",
+                  "value": "mfs-caterpiller"
+                },
+                {
+                  "key": "x-ratelimit-limit-minute",
+                  "value": "10"
+                },
+                {
+                  "key": "x-ratelimit-remaining-minute",
+                  "value": "7"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": ": 1;mode=block"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "expires",
+                  "value": "0"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "gzip"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status\": {\n        \"response_code\": \"DP00800001000\",\n        \"code\": \"500\",\n        \"success\": false,\n        \"result_code\": \"ESB000041\",\n        \"message\": \"External Transaction ID already exists.\"\n    }\n}"
+            },
+            {
+              "name": "Payments USSD - IO Exception",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n      \"reference\": \"Testing transaction\",\r\n      \"subscriber\": {\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"msisdn\": 999999999\r\n      },\r\n      \"transaction\": {\r\n        \"amount\": 1,\r\n        \"country\": \"UG\",\r\n        \"currency\": \"UGX\",\r\n        \"id\": \"HNCH-123\"\r\n      }\r\n}\r\n    ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/merchant/v1/payments/",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "merchant",
+                    "v1",
+                    "payments",
+                    ""
+                  ]
+                }
+              },
+              "status": "Request Timeout",
+              "code": 408,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "content-type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "transfer-encoding",
+                  "value": "chunked"
+                },
+                {
+                  "key": "date",
+                  "value": "Tue, 01 Mar 2022 11:37:23 GMT"
+                },
+                {
+                  "key": "x-response-trace-id",
+                  "value": "bf7b492d79da4205830d5c2c6f0db941"
+                },
+                {
+                  "key": "x-client-id",
+                  "value": "mfs-router"
+                },
+                {
+                  "key": "x-ratelimit-limit-minute",
+                  "value": "10"
+                },
+                {
+                  "key": "x-ratelimit-remaining-minute",
+                  "value": "8"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": ": 1;mode=block"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"status_message\": \"I/O Exception\",\n    \"status_code\": \"CONNECTION_TIMEOUT\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Tansaction Inquiry",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{endpoint.uat}}/standard/v1/payments/12345",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "standard",
+                "v1",
+                "payments",
+                "12345"
+              ]
+            },
+            "description": "This API gets the transaction status corresponding to the requested External Id."
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/payments/12345",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "payments",
+                    "12345"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Tue, 14 Dec 2021 18:28:22 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "www-authenticate",
+                  "value": "Bearer realm=\"service\" error=\"invalid_token\" error_description=\"The access token is invalid or has expired\""
+                },
+                {
+                  "key": "content-length",
+                  "value": "90"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error_description\": \"The access token is invalid or has expired\",\n    \"error\": \"invalid_token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/payments/12345",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "payments",
+                    "12345"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"transaction\": {\n            \"airtel_money_id\": \"C3648.00993.538XX.XX67\",\n            \"id\": \"8334msn88\",\n            \"message\": \"success\",\n            \"status\": \"TS\"\n        }\n    },\n    \"status\": {\n        \"code\": \"200\",\n        \"message\": \"SUCCESS\",\n        \"result_code\": \"ESB000010\",\n        \"response_code\": \"DP00800001006\",\n        \"success\": true\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Refund",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Country",
+                "value": "UG",
+                "type": "text"
+              },
+              {
+                "key": "X-Currency",
+                "value": "UGX",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"transaction\": {\r\n        \"airtel_money_id\": \"CI210104.1105.C00018\"\r\n        }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint.uat}}/standard/v1/payments/refund",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "standard",
+                "v1",
+                "payments",
+                "refund"
+              ]
+            },
+            "description": "This API is used to make full refunds to Partners."
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"transaction\": {\r\n        \"airtel_money_id\": \"CI210104.1105.C00018\"\r\n        }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/payments/refund",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "payments",
+                    "refund"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Tue, 14 Dec 2021 18:25:51 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "www-authenticate",
+                  "value": "Bearer realm=\"service\" error=\"invalid_token\" error_description=\"The access token is invalid or has expired\""
+                },
+                {
+                  "key": "content-length",
+                  "value": "90"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error_description\": \"The access token is invalid or has expired\",\n    \"error\": \"invalid_token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"transaction\": {\r\n        \"airtel_money_id\": \"CI210104.1105.C00018\"\r\n        }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/payments/refund",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "payments",
+                    "refund"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"transaction\": {\n            \"airtel_money_id\": \"CI210104.1549.C00029\",\n            \"status\": \"SUCCESS\"\n        }\n    },\n    \"status\": {\n        \"code\": \"200\",\n        \"message\": \"SUCCESS\",\n        \"result_code\": \"ESB000010\",\n        \"success\": true\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Callback Without authentication",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"transaction\": {\r\n    \"id\": \"BBZMiscxy\",\r\n    \"message\": \"Paid UGX 5,000 to TECHNOLOGIES LIMITED Charge UGX 140, Trans ID MP210603.1234.L06941.\",\r\n    \"status_code\": \"TS\",\r\n    \"airtel_money_id\": \"MP210603.1234.L06941\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{callback_url}}",
+              "host": [
+                "{{callback_url}}"
+              ]
+            },
+            "description": "***Without Authentication***\n\nAirtel Africa sends the status of the transaction on the callback url. The status of the transaction in the callback URL can be intermediate or final status. The URL is in the format \"https://partner_domain/callback_path\" can be configured in Application settings."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"transaction\": {\r\n    \"id\": \"BBZMiscxy\",\r\n    \"message\": \"Paid UGX 5,000 to TECHNOLOGIES LIMITED Charge UGX 140, Trans ID MP210603.1234.L06941.\",\r\n    \"status_code\": \"TS\",\r\n    \"airtel_money_id\": \"MP210603.1234.L06941\"\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{callback_url}}",
+                  "host": [
+                    "{{callback_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Dec 2021 19:11:06 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Apache/2.4.41 (Ubuntu)"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "XSRF-TOKEN=eyJpdiI6ImJmNlpNOFhaTGdmbU5zOTBVVzF2U3c9PSIsInZhbHVlIjoiRHE1bHNiTTF6NG1XRVNsbGJ4bTBYR3NuQUxFditNOXdlNHRzbU5QZnl6K1oyakNlMTlYN1BwMUZ3UGx3SU9xdzVyeUFIN09pdEd6cmpDTk1BRlVtdnJlMzAra0tqemZMeXdQNXRWYU9zazExSnVkdEkybWd1U1pEb0tIKzFMcUciLCJtYWMiOiJjY2VhOGJiNzlkNDI4MzM4YjE0MzAzOGM0MWZmYTQ4NDc1NWRhYTdiODE0MTc5N2I0ODE2YzY3ZTk0OWM4YzJjIn0%3D; expires=Tue, 14-Dec-2021 21:11:06 GMT; Max-Age=7200; path=/; samesite=lax"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "honcho_payments_session=eyJpdiI6ImlrOFUyZjZPT2lTYnVFSUllOUYrWUE9PSIsInZhbHVlIjoiOXpTMzIxZis5dWxZTFdGWHAwejJRT0kxblFycktIT3FiczZ3cTBuUmh3Z1FoclNEWHUyZ0lMUGxwYXZoQnNxV0Y0NEhPazBJamtwTE84TGRrem9PMFByL2lMRVR3K2pxNEZCVFZoRlZWTHZXM0hPWS9XOFNGc0M4Uzk3RVFwZVAiLCJtYWMiOiIzMThiMmI1ZmRiMGIyMWZjZjUyMzdjZGU3NWM4NmYwNWQ3NjVmNWU3YmFiNWViNWJlYzgzOTVlODM5ZDYyODNmIn0%3D; expires=Tue, 14-Dec-2021 21:11:06 GMT; Max-Age=7200; path=/; httponly; samesite=lax"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "31"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5, max=100"
+                },
+                {
+                  "key": "Connection",
+                  "value": "Keep-Alive"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Callback With authentication",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"transaction\": {\r\n        \"id\": \"BBZMiscxy\",\r\n        \"message\": \"Paid UGX 5,000 to TECHNOLOGIES LIMITED Charge UGX 140, Trans ID MP210603.1234.L06941.\",\r\n        \"status_code\": \"TS\",\r\n        \"airtel_money_id\": \"MP210603.1234.L06941\"\r\n    },\r\n    \"hash\": \"zITVAAGYSlzl1WkUQJn81kbpT5drH3koffT8jCkcJJA=\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{callback_url}}",
+              "host": [
+                "{{callback_url}}"
+              ]
+            },
+            "description": "***Without Authentication***\n\nAirtel Africa sends the status of the transaction on the callback url. The status of the transaction in the callback URL can be intermediate or final status. The URL is in the format \"https://partner_domain/callback_path\" can be configured in Application settings."
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"transaction\": {\r\n    \"id\": \"BBZMiscxy\",\r\n    \"message\": \"Paid UGX 5,000 to TECHNOLOGIES LIMITED Charge UGX 140, Trans ID MP210603.1234.L06941.\",\r\n    \"status_code\": \"TS\",\r\n    \"airtel_money_id\": \"MP210603.1234.L06941\"\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{callback_url}}",
+                  "host": [
+                    "{{callback_url}}"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 14 Dec 2021 19:11:06 GMT"
+                },
+                {
+                  "key": "Server",
+                  "value": "Apache/2.4.41 (Ubuntu)"
+                },
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache, private"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "XSRF-TOKEN=eyJpdiI6ImJmNlpNOFhaTGdmbU5zOTBVVzF2U3c9PSIsInZhbHVlIjoiRHE1bHNiTTF6NG1XRVNsbGJ4bTBYR3NuQUxFditNOXdlNHRzbU5QZnl6K1oyakNlMTlYN1BwMUZ3UGx3SU9xdzVyeUFIN09pdEd6cmpDTk1BRlVtdnJlMzAra0tqemZMeXdQNXRWYU9zazExSnVkdEkybWd1U1pEb0tIKzFMcUciLCJtYWMiOiJjY2VhOGJiNzlkNDI4MzM4YjE0MzAzOGM0MWZmYTQ4NDc1NWRhYTdiODE0MTc5N2I0ODE2YzY3ZTk0OWM4YzJjIn0%3D; expires=Tue, 14-Dec-2021 21:11:06 GMT; Max-Age=7200; path=/; samesite=lax"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "honcho_payments_session=eyJpdiI6ImlrOFUyZjZPT2lTYnVFSUllOUYrWUE9PSIsInZhbHVlIjoiOXpTMzIxZis5dWxZTFdGWHAwejJRT0kxblFycktIT3FiczZ3cTBuUmh3Z1FoclNEWHUyZ0lMUGxwYXZoQnNxV0Y0NEhPazBJamtwTE84TGRrem9PMFByL2lMRVR3K2pxNEZCVFZoRlZWTHZXM0hPWS9XOFNGc0M4Uzk3RVFwZVAiLCJtYWMiOiIzMThiMmI1ZmRiMGIyMWZjZjUyMzdjZGU3NWM4NmYwNWQ3NjVmNWU3YmFiNWViNWJlYzgzOTVlODM5ZDYyODNmIn0%3D; expires=Tue, 14-Dec-2021 21:11:06 GMT; Max-Age=7200; path=/; httponly; samesite=lax"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "31"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5, max=100"
+                },
+                {
+                  "key": "Connection",
+                  "value": "Keep-Alive"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "**Base URLs:**\n\n**Staging -- https://openapiuat.airtel.africa/**\n\n**Production -- https://openapi.airtel.africa/**"
+    },
+    {
+      "name": "Disbursment APIs",
+      "item": [
+        {
+          "name": "Payments",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Country",
+                "value": "UG",
+                "type": "text"
+              },
+              {
+                "key": "X-Currency",
+                "value": "UGX",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"payee\": {\r\n    \"msisdn\": 9999999999\r\n  },\r\n  \"reference\": \"ABCD07026984141\",\r\n  \"pin\": \"KYJExln8rZwb14G1K5UE5YF/lD7KheNUM171MUEG3/f/QD8nmNKRsa44\",\r\n  \"transaction\": {\r\n    \"amount\": 1000,\r\n    \"id\": \"random-unique-id\"\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint.uat}}/standard/v1/disbursements/",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "standard",
+                "v1",
+                "disbursements",
+                ""
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"payee\": {\r\n    \"msisdn\": 9999999999\r\n  },\r\n  \"reference\": \"ABCD07026984141\",\r\n  \"pin\": \"KYJExln8rZwb14G1K5UE5YF/lD7KheNUM171MUEG3/f/QD8nmNKRsa44\",\r\n  \"transaction\": {\r\n    \"amount\": 1000,\r\n    \"id\": \"random-unique-id\"\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/disbursements/",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "disbursements",
+                    ""
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Tue, 14 Dec 2021 18:47:22 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "www-authenticate",
+                  "value": "Bearer realm=\"service\" error=\"invalid_token\" error_description=\"The access token is invalid or has expired\""
+                },
+                {
+                  "key": "content-length",
+                  "value": "90"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error_description\": \"The access token is invalid or has expired\",\n    \"error\": \"invalid_token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"payee\": {\r\n    \"msisdn\": 9999999999\r\n  },\r\n  \"reference\": \"ABCD07026984141\",\r\n  \"pin\": \"KYJExln8rZwb14G1K5UE5YF/lD7KheNUM171MUEG3/f/QD8nmNKRsa44\",\r\n  \"transaction\": {\r\n    \"amount\": 1000,\r\n    \"id\": \"random-unique-id\"\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/disbursements/",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "disbursements",
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"transaction\": {\n            \"reference_id\": \"18*****3354\",\n            \"airtel_money_id\": \"partner-ABCD07026984141\",\n            \"id\": \"ABCD07026984141\",\n            \"status\": \"TS\"\n        }\n    },\n    \"status\": {\n        \"code\": \"200\",\n        \"message\": \"Trans.ID :  CI2****************02. You have sent *****   to 999****39,B*******MA . Your available balance is ** 5****.21.\",\n        \"result_code\": \"ESB000010\",\n        \"response_code\": \"DP00900001001\",\n        \"success\": true\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Transaction Inquiry",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Country",
+                "value": "UG",
+                "type": "text"
+              },
+              {
+                "key": "X-Currency",
+                "value": "UGX",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{endpoint.uat}}/standard/v1/disbursements/12345",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "standard",
+                "v1",
+                "disbursements",
+                "12345"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/disbursements/12345",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "disbursements",
+                    "12345"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Tue, 14 Dec 2021 18:51:31 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "www-authenticate",
+                  "value": "Bearer realm=\"service\" error=\"invalid_token\" error_description=\"The access token is invalid or has expired\""
+                },
+                {
+                  "key": "content-length",
+                  "value": "90"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error_description\": \"The access token is invalid or has expired\",\n    \"error\": \"invalid_token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/disbursements/12345",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "disbursements",
+                    "12345"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"transaction\": {\n            \"id\": \"ABCD07026984141\",\n            \"message\": \"Your Request is submitted Successfully.\",\n            \"status\": \"TS\"\n        }\n    },\n    \"status\": {\n        \"code\": \"200\",\n        \"message\": \"SUCCESS\",\n        \"result_code\": \"ESB000010\",\n        \"response_code\": \"DP00900001001\",\n        \"success\": true\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "KYC",
+      "item": [
+        {
+          "name": "User Inquiry",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Currency",
+                "value": "UGX",
+                "type": "text"
+              },
+              {
+                "key": "X-Country",
+                "value": "UG",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{endpoint.uat}}/standard/v1/users/25675123456",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "standard",
+                "v1",
+                "users",
+                "25675123456"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/users/25675123456",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "users",
+                    "25675123456"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Tue, 14 Dec 2021 18:53:34 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "www-authenticate",
+                  "value": "Bearer realm=\"service\" error=\"invalid_token\" error_description=\"The access token is invalid or has expired\""
+                },
+                {
+                  "key": "content-length",
+                  "value": "90"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error_description\": \"The access token is invalid or has expired\",\n    \"error\": \"invalid_token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/users/25675123456",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "users",
+                    "25675123456"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"first_name\": \"Dealer\",\n        \"grade\": \"SUBS\",\n        \"is_barred\": false,\n        \"is_pin_set\": false,\n        \"last_name\": \"Test1\",\n        \"msisdn\": \"12****89\",\n        \"registration\": {\n            \"status\": \"SUBS\"\n        }\n    },\n    \"status\": {\n        \"code\": \"200\",\n        \"message\": \"SUCCESS\",\n        \"result_code\": \"ESB000010\",\n        \"success\": true\n    }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "**Base URLs:**\n\n**Staging -- https://openapiuat.airtel.africa/**\n\n**Production -- https://openapi.airtel.africa/**"
+    },
+    {
+      "name": "Account",
+      "item": [
+        {
+          "name": "Balance Inquiry",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Country",
+                "value": "UG",
+                "type": "text"
+              },
+              {
+                "key": "X-Currency",
+                "value": "UGX",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{endpoint.uat}}/standard/v1/users/balance",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "standard",
+                "v1",
+                "users",
+                "balance"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/users/balance",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "users",
+                    "balance"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "date",
+                  "value": "Tue, 14 Dec 2021 18:55:36 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "www-authenticate",
+                  "value": "Bearer realm=\"service\" error=\"invalid_token\" error_description=\"The access token is invalid or has expired\""
+                },
+                {
+                  "key": "content-length",
+                  "value": "90"
+                },
+                {
+                  "key": "content-security-policy",
+                  "value": "object-src 'none'; script-src 'self'; script-src-elem 'self'; base-uri 'self'"
+                },
+                {
+                  "key": "x-content-type-options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "x-frame-options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "x-xss-protection",
+                  "value": "1; mode=block"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=16000000; includeSubDomains; preload;"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"error_description\": \"The access token is invalid or has expired\",\n    \"error\": \"invalid_token\"\n}"
+            },
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-Country",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}}/standard/v1/users/balance",
+                  "host": [
+                    "{{endpoint.uat}}"
+                  ],
+                  "path": [
+                    "standard",
+                    "v1",
+                    "users",
+                    "balance"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"balance\": \"37,600.00\",\n        \"currency\": \"UGX\",\n        \"account_status\": \"Active\"\n    },\n    \"status\": {\n        \"code\": \"200\",\n        \"message\": \"SUCCESS\",\n        \"result_code\": \"ESB000010\",\n        \"response_code\": \"DP02100000001\",\n        \"success\": false\n    }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "**Base URLs:**\n\n**Staging -- https://openapiuat.airtel.africa/**\n\n**Production -- https://openapi.airtel.africa/**"
+    },
+    {
+      "name": "Encryption",
+      "item": [
+        {
+          "name": "Encryption Keys",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-Country-Code",
+                    "value": "UG",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Currency",
+                    "value": "UGX",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{endpoint.uat}} /v1/rsa/encryption-keys",
+                  "host": [
+                    "{{endpoint.uat}} "
+                  ],
+                  "path": [
+                    "v1",
+                    "rsa",
+                    "encryption-keys"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": null,
+              "header": null,
+              "cookie": [],
+              "body": "{\r\n  \"data\": {\r\n    \"key_id\": 100,\r\n    \"key\": \"MIG********AB\",\r\n    \"valid_upto\": \"12-08-2024 21:29:26\"\r\n  },\r\n  \"status\": {\r\n    \"code\": \"200\",\r\n    \"message\": \"Success\",\r\n    \"response_code\": \"DP02010001001\",\r\n    \"result_code\": \"ESB000010\",\r\n    \"success\": true\r\n  }\r\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Authorization",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": " application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "*/*",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"client_id\": \"{{client_id}}\",\r\n    \"client_secret\": \"{{client_secret}}\",\r\n    \"grant_type\": \"client_credentials\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{endpoint.uat}}/auth/oauth2/token",
+          "host": [
+            "{{endpoint.uat}}"
+          ],
+          "path": [
+            "auth",
+            "oauth2",
+            "token"
+          ]
+        },
+        "description": "**Base URLs:**\n\n**Staging -- https://openapiuat.airtel.africa/**\n\n**Production -- https://openapi.airtel.africa/**\n\nThis API is used to get the bearer token. The output of this API contains access_token that will be used as bearer token for the API that we will be going to call."
+      },
+      "response": [
+        {
+          "name": "Bad Request",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": " application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"client_id\": \"{{client_id}}\",\r\n    \"client_secret\": \"{{client_secret}}\",\r\n    \"grant_type\": \"client_credentials\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint.uat}}/auth/oauth2/token",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "auth",
+                "oauth2",
+                "token"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Tue, 14 Dec 2021 18:18:45 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-store"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "content-length",
+              "value": "78"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "0"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "deny"
+            },
+            {
+              "key": "referrer-policy",
+              "value": "no-referrer"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-security-policy",
+              "value": "script-src 'self'"
+            },
+            {
+              "key": "strict-transport-security",
+              "value": "max-age=16000000; includeSubDomains; preload;"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error_description\": \"Invalid client authentication\",\n    \"error\": \"invalid_client\"\n}"
+        },
+        {
+          "name": "Authorization - 200",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": " application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"client_id\": \"{{client_id}}\",\r\n    \"client_secret\": \"{{client_secret}}\",\r\n    \"grant_type\": \"client_credentials\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{endpoint.uat}}/auth/oauth2/token",
+              "host": [
+                "{{endpoint.uat}}"
+              ],
+              "path": [
+                "auth",
+                "oauth2",
+                "token"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "date",
+              "value": "Tue, 22 Feb 2022 13:05:16 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-store"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "content-length",
+              "value": "90"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "0"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": ": 1;mode=block"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "deny"
+            },
+            {
+              "key": "referrer-policy",
+              "value": "no-referrer"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-security-policy",
+              "value": "script-src 'self'"
+            },
+            {
+              "key": "strict-transport-security",
+              "value": "max-age=16000000; includeSubDomains; preload;"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"token_type\": \"bearer\",\n    \"access_token\": \"DHeopO4IXBaAGUcZpXgymyfSkFtjvHJz\",\n    \"expires_in\": 180\n}"
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "endpoint.uat",
+      "value": "https://4b0cf42a-5fd0-429b-9bc9-c594acb4c67e.mock.pstmn.io"
+    },
+    {
+      "key": "endpoint.prod",
+      "value": "https://openapi.airtel.africa"
+    },
+    {
+      "key": "client_id",
+      "value": "0557849c-8c34-43f8-91f3-8faba8cc3239"
+    },
+    {
+      "key": "client_secret",
+      "value": "5f4d4cd1-7f9c-40ba-8ccd-60e950246f06"
+    },
+    {
+      "key": "access_token",
+      "value": "om1LTK7s6iRbDChQvhaFqSiAF4dPwKG0"
+    },
+    {
+      "key": "callback_url",
+      "value": "https://honcho.ug/callback/airtel"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "msisdn",
+      "value": ""
+    }
+  ]
+}

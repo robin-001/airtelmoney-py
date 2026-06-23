@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=77.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "airtelmoney-py"
+version = "1.0.0"
+description = "Python client for the Airtel Money Uganda Open APIs (Collections, Disbursements, KYC, Account) with built-in request signing and PIN encryption."
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Robinson Okello, https://angstrom-technologies.ug" }]
+keywords = ["airtel", "airtel money", "uganda", "payments", "disbursement", "mobile money", "api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+]
+dependencies = [
+    "requests>=2.25.0",
+    "pycryptodome>=3.15.0",
+]
+
+[project.optional-dependencies]
+env = [
+    "python-dotenv>=1.0.0",
+]
+dev = [
+    "pytest>=7.0",
+    "responses>=0.23",
+    "python-dotenv>=1.0.0",
+    "build>=1.0",
+    "twine>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/robin-001/airtelmoney-py"
+Repository = "https://github.com/robin-001/airtelmoney-py"
+Issues = "https://github.com/robin-001/airtelmoney-py/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+airtelmoney = ["py.typed"]
