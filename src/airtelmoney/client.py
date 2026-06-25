@@ -309,34 +309,47 @@ class AirtelMoney:
             AirtelAPIError: on HTTP >= 400 or an explicit error body.
         """
         url = self.base_url + path
-        request_headers = self._build_headers(
-            auth=auth,
-            include_country_currency=include_country_currency,
-            extra=headers,
-        )
 
         kwargs: Dict[str, Any] = {"timeout": self.timeout, "params": params}
+        body_content_type = raw_body is not None or json_body is not None
         if raw_body is not None:
-            request_headers.setdefault("Content-Type", "application/json")
             kwargs["data"] = raw_body.encode("utf-8")
         elif json_body is not None:
-            request_headers.setdefault("Content-Type", "application/json")
             kwargs["json"] = json_body
 
-        try:
-            resp = self.session.request(
-                method, url, headers=request_headers, **kwargs
+        # The bearer token is validated (and refreshed when expired) before every
+        # request via get_access_token(). If the server still rejects it with a
+        # 401 (e.g. the token was revoked before its expiry), force a refresh and
+        # retry the request once.
+        attempted_refresh = False
+        while True:
+            request_headers = self._build_headers(
+                auth=auth,
+                include_country_currency=include_country_currency,
+                extra=headers,
             )
-        except requests.RequestException as exc:
-            raise AirtelAPIError(f"Request to {path} failed: {exc}") from exc
+            if body_content_type:
+                request_headers.setdefault("Content-Type", "application/json")
 
-        try:
-            body = resp.json()
-        except ValueError:
-            body = {"raw": resp.text}
+            try:
+                resp = self.session.request(
+                    method, url, headers=request_headers, **kwargs
+                )
+            except requests.RequestException as exc:
+                raise AirtelAPIError(f"Request to {path} failed: {exc}") from exc
 
-        self._raise_for_response(resp.status_code, body)
-        return body
+            if resp.status_code == 401 and auth and not attempted_refresh:
+                attempted_refresh = True
+                self.get_access_token(force_refresh=True)
+                continue
+
+            try:
+                body = resp.json()
+            except ValueError:
+                body = {"raw": resp.text}
+
+            self._raise_for_response(resp.status_code, body)
+            return body
 
     @staticmethod
     def _raise_for_response(status_code: int, body: Any) -> None:

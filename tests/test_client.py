@@ -1,6 +1,7 @@
 """Tests for the AirtelMoney HTTP client using mocked responses."""
 
 import base64
+import time
 
 import pytest
 import responses
@@ -8,6 +9,8 @@ from Crypto.PublicKey import RSA
 
 from airtelmoney import AirtelAPIError, AirtelMoney, STAGING_URL
 from airtelmoney.errors import describe, is_success
+
+TOKEN_URL = STAGING_URL + "/auth/oauth2/token"
 
 
 def _public_key_b64():
@@ -144,3 +147,58 @@ def test_from_env_missing_raises(monkeypatch):
     monkeypatch.delenv("AIRTEL_CLIENT_SECRET", raising=False)
     with pytest.raises(Exception):
         AirtelMoney.from_env()
+
+
+@responses.activate
+def test_token_refreshes_after_expiry(client):
+    responses.add(responses.POST, TOKEN_URL,
+                  json={"access_token": "t1", "expires_in": 180}, status=200)
+    responses.add(responses.POST, TOKEN_URL,
+                  json={"access_token": "t2", "expires_in": 180}, status=200)
+
+    assert client.get_access_token() == "t1"
+    # Simulate the 180s token having expired.
+    client._token_expiry = time.time() - 1
+    assert client.get_access_token() == "t2"
+    assert len(responses.calls) == 2
+
+
+@responses.activate
+def test_401_triggers_reauth_and_retry(client):
+    # Two tokens: the stale one, then the refreshed one after the 401.
+    responses.add(responses.POST, TOKEN_URL,
+                  json={"access_token": "stale", "expires_in": 180}, status=200)
+    responses.add(responses.POST, TOKEN_URL,
+                  json={"access_token": "fresh", "expires_in": 180}, status=200)
+
+    balance_url = STAGING_URL + "/standard/v1/users/balance"
+    # First call: token rejected. Second call (after refresh): success.
+    responses.add(responses.GET, balance_url,
+                  json={"error": "invalid_token"}, status=401)
+    responses.add(responses.GET, balance_url,
+                  json={"data": {"balance": "100.00"},
+                        "status": {"response_code": "DP02100000001", "success": True}},
+                  status=200)
+
+    body = client.account.balance()
+    assert body["data"]["balance"] == "100.00"
+
+    # The bearer token must have been refreshed and the failed request retried.
+    token_calls = [c for c in responses.calls if c.request.url == TOKEN_URL]
+    assert len(token_calls) == 2
+    last_balance = [c for c in responses.calls if c.request.url == balance_url][-1]
+    assert last_balance.request.headers["Authorization"] == "Bearer fresh"
+
+
+@responses.activate
+def test_401_retried_only_once(client):
+    responses.add(responses.POST, TOKEN_URL,
+                  json={"access_token": "t1", "expires_in": 180}, status=200)
+    responses.add(responses.POST, TOKEN_URL,
+                  json={"access_token": "t2", "expires_in": 180}, status=200)
+    responses.add(responses.GET, STAGING_URL + "/standard/v1/users/balance",
+                  json={"error": "invalid_token"}, status=401)
+
+    with pytest.raises(AirtelAPIError) as exc:
+        client.account.balance()
+    assert exc.value.status_code == 401
