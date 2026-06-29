@@ -43,9 +43,9 @@ client = AirtelMoney.from_credentials_file("airtel_credentials.json")
 client = AirtelMoney.from_env()
 ```
 
-> Default base URLs are `https://openapiuat.airtel.africa` (staging) and
-> `https://openapi.airtel.africa` (production). Pass `base_url=...` to override,
-> e.g. for the Uganda-specific endpoints in `airtel_credentials.json`.
+> Default base URLs are `https://openapiuat.airtel.ug` (staging) and
+> `https://openapi.airtel.ug` (production). Pass `base_url=...` to override,
+> e.g. for the pan-African endpoints `https://openapi.airtel.africa`.
 
 ### Configuration via `.env`
 

@@ -128,25 +128,37 @@ def test_describe_known_code():
     assert info.reason == "Forbidden"
 
 
+# Point dotenv at a path that does not exist so these unit tests are isolated
+# from any developer-local .env file.
+_NO_DOTENV = "tests/__does_not_exist__.env"
+
+
 def test_from_env(monkeypatch):
+    for var in ("AIRTEL_BASE_URL", "AIRTEL_ENVIRONMENT"):
+        monkeypatch.delenv(var, raising=False)
     monkeypatch.setenv("AIRTEL_CLIENT_ID", "env-id")
     monkeypatch.setenv("AIRTEL_CLIENT_SECRET", "env-secret")
     monkeypatch.setenv("AIRTEL_ENVIRONMENT", "production")
     monkeypatch.setenv("AIRTEL_CURRENCY", "UGX")
     monkeypatch.setenv("AIRTEL_COUNTRY", "UG")
 
-    c = AirtelMoney.from_env()
+    c = AirtelMoney.from_env(dotenv_path=_NO_DOTENV)
     assert c.client_id == "env-id"
     assert c.client_secret == "env-secret"
-    assert c.base_url == "https://openapiuat.airtel.ug"
+    assert c.base_url == "https://openapi.airtel.ug"
     assert c.currency == "UGX"
 
 
 def test_from_env_missing_raises(monkeypatch):
-    monkeypatch.delenv("AIRTEL_CLIENT_ID", raising=False)
-    monkeypatch.delenv("AIRTEL_CLIENT_SECRET", raising=False)
+    for var in (
+        "AIRTEL_CLIENT_ID",
+        "AIRTEL_CLIENT_SECRET",
+        "AIRTEL_BASE_URL",
+        "AIRTEL_ENVIRONMENT",
+    ):
+        monkeypatch.delenv(var, raising=False)
     with pytest.raises(Exception):
-        AirtelMoney.from_env()
+        AirtelMoney.from_env(dotenv_path=_NO_DOTENV)
 
 
 @responses.activate

@@ -16,9 +16,9 @@ from .exceptions import (
     AirtelConfigError,
 )
 
-#: Default Airtel Open API base URLs.
-STAGING_URL = "https://openapiuat.airtel.africa"
-PRODUCTION_URL = "https://openapi.airtel.africa"
+#: Default Airtel Money Uganda Open API base URLs.
+STAGING_URL = "https://openapiuat.airtel.ug"
+PRODUCTION_URL = "https://openapi.airtel.ug"
 
 _TOKEN_PATH = "/auth/oauth2/token"
 _ENCRYPTION_KEY_PATH = "/v1/rsa/encryption-keys"
