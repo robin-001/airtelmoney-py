@@ -7,7 +7,7 @@ from typing import Any, Dict, Optional, Union
 from ..encryption import encrypt_pin
 from .base import BaseAPI
 
-_DISBURSE_PATH = "/standard/v1/disbursements/"
+_DISBURSE_PATH = "/standard/v2/disbursements/"
 _ENQUIRY_PATH = "/standard/v1/disbursements/{transaction_id}"
 
 

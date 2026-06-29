@@ -98,6 +98,7 @@ class CollectionAPI(BaseAPI):
         return self._client.request(
             "GET",
             _ENQUIRY_PATH.format(transaction_id=transaction_id),
+            include_country_currency=True,
             auth=True,
         )
 

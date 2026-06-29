@@ -262,9 +262,12 @@ class AirtelMoney:
         data = body.get("data") or {}
         key = data.get("key")
         if not key:
+            status = body.get("status") or {}
+            detail = status.get("message") or body.get("error_description")
             raise AirtelAPIError(
-                "Encryption key not present in response.",
-                response_code=(body.get("status") or {}).get("response_code"),
+                "Encryption key not present in response"
+                + (f": {detail}" if detail else f". Full response: {body}"),
+                response_code=status.get("response_code"),
                 payload=body,
             )
         self._encryption_key = key
@@ -335,6 +338,10 @@ class AirtelMoney:
                 resp = self.session.request(
                     method, url, headers=request_headers, **kwargs
                 )
+                logger.debug(f"Request to {path} returned status {resp.status_code}")
+                logger.debug(f"Request headers: {request_headers}")
+                logger.debug(f"Request body: {kwargs.get('data') or kwargs.get('json')}")
+                logger.debug(f"Response body: {resp.text}")
             except requests.RequestException as exc:
                 raise AirtelAPIError(f"Request to {path} failed: {exc}") from exc
 

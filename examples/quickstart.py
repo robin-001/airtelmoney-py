@@ -2,19 +2,19 @@
 
 from airtelmoney import AirtelMoney, describe
 
-client = AirtelMoney(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-    environment="staging",
-)
+    # client = AirtelMoney(
+    #     client_id="YOUR_CLIENT_ID",
+    #     client_secret="YOUR_CLIENT_SECRET",
+    #     environment="staging",
+    # )
 # Or load from the credentials JSON file:
-# client = AirtelMoney.from_credentials_file("airtel_credentials.json")
+client = AirtelMoney.from_credentials_file("airtel_credentials.json")
 
 
 def main() -> None:
     # Collections: USSD push payment (payload signed automatically)
     pay = client.collection.payment(
-        reference="Order #123", msisdn="752604392", amount=1000
+        reference="Order #123", msisdn="750396876", amount=1000
     )
     txn_id = pay["data"]["transaction"]["id"]
     print("collection.payment:", pay)
@@ -25,14 +25,14 @@ def main() -> None:
 
     # Disbursements: PIN is RSA-encrypted automatically
     dis = client.disbursement.payment(
-        msisdn="752604392", amount=500, reference="payout-1", pin="1234"
+        msisdn="750396876", amount=500, reference="payout-1", pin="1234"
     )
     print("disbursement.payment:", dis)
     print("disbursement.enquiry:", client.disbursement.enquiry(
         dis["data"]["transaction"]["id"]))
 
     # KYC + Account
-    print("kyc.user_enquiry:", client.kyc.user_enquiry("256752604392"))
+    print("kyc.user_enquiry:", client.kyc.user_enquiry("750396876"))
     print("account.balance:", client.account.balance())
 
     # Interpret a response code
