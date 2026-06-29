@@ -70,6 +70,8 @@ jobs:
       - name: Publish via Trusted Publishing
         if: env.HAS_TOKEN != 'true'
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
 
       # Option B: API token fallback. Add a repository secret named
       # PYPI_API_TOKEN (value like "pypi-...") to use this path.
@@ -78,3 +80,4 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true
