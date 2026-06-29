@@ -69,7 +69,7 @@ def test_disbursement_encrypts_pin(client):
     )
     responses.add(
         responses.POST,
-        STAGING_URL + "/standard/v1/disbursements/",
+        STAGING_URL + "/standard/v2/disbursements/",
         json={"data": {"transaction": {"id": "x", "status": "TS"}},
               "status": {"response_code": "DP00900001001", "success": True}},
         status=200,
@@ -138,7 +138,7 @@ def test_from_env(monkeypatch):
     c = AirtelMoney.from_env()
     assert c.client_id == "env-id"
     assert c.client_secret == "env-secret"
-    assert c.base_url == "https://openapi.airtel.africa"
+    assert c.base_url == "https://openapiuat.airtel.ug"
     assert c.currency == "UGX"
 
 

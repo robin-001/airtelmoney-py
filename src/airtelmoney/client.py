@@ -50,7 +50,6 @@ class AirtelMoney:
         timeout: Per-request timeout in seconds.
         session: Optional pre-configured :class:`requests.Session`.
     """
-    logger = logging.getLogger('http')
 
     def __init__(
         self,
@@ -64,6 +63,7 @@ class AirtelMoney:
         timeout: float = 30.0,
         session: Optional[requests.Session] = None,
     ) -> None:
+        self.logger = logging.getLogger('http')
         if not client_id or not client_secret:
             raise AirtelConfigError("client_id and client_secret are required.")
 
@@ -340,10 +340,10 @@ class AirtelMoney:
                 resp = self.session.request(
                     method, url, headers=request_headers, **kwargs
                 )
-                logger.debug(f"Request to {path} returned status {resp.status_code}")
-                logger.debug(f"Request headers: {request_headers}")
-                logger.debug(f"Request body: {kwargs.get('data') or kwargs.get('json')}")
-                logger.debug(f"Response body: {resp.text}")
+                self.logger.debug(f"Request to {path} returned status {resp.status_code}")
+                self.logger.debug(f"Request headers: {request_headers}")
+                self.logger.debug(f"Request body: {kwargs.get('data') or kwargs.get('json')}")
+                self.logger.debug(f"Response body: {resp.text}")
             except requests.RequestException as exc:
                 raise AirtelAPIError(f"Request to {path} failed: {exc}") from exc
 
