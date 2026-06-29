@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "airtelmoney-py"
-version = "1.0.5"
+version = "1.0.6"
 description = "Python client for the Airtel Money Uganda Open APIs (Collections, Disbursements, KYC, Account) with built-in request signing and PIN encryption."
 readme = "README.md"
 requires-python = ">=3.8"

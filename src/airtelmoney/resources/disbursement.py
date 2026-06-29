@@ -47,10 +47,10 @@ class DisbursementAPI(BaseAPI):
 
         txn_id = transaction_id or self._new_transaction_id()
         payload = {
-            "payee": {"msisdn": str(msisdn)},
+            "payee": {"msisdn": str(msisdn),"currency": self._client.currency},
             "reference": reference,
             "pin": encrypted_pin,
-            "transaction": {"amount": amount, "id": txn_id},
+            "transaction": {"amount": amount, "id": txn_id,"type": "B2C"},
         }
         return self._client.request(
             "POST",
