@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import json
 import os
 import time
@@ -49,6 +50,7 @@ class AirtelMoney:
         timeout: Per-request timeout in seconds.
         session: Optional pre-configured :class:`requests.Session`.
     """
+    logger = logging.getLogger('http')
 
     def __init__(
         self,
